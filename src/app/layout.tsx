@@ -7,11 +7,10 @@ import "@/assets/css/index.css";
 const poppins = Poppins({
   weight: ["400", "600", "700"],
   subsets: ["latin"],
-})
+});
 
 export const metadata: Metadata = {
-  title:
-  {
+  title: {
     template: "%s | Katerina", // %s will be replaced with the page title (suffix)
     default: "Katerina",
   },
@@ -28,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.className}>
       <body>
-        {children}
+        <main className="container max-w-sm mx-auto flex flex-col gap-y-5 relative pt-16">{children}</main>
 
         {modal}
       </body>

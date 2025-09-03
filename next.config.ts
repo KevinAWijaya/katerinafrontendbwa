@@ -1,12 +1,13 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
+/** @type {import("next").NextConfig} */
+const nextConfig = {
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
