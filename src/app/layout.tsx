@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Poppins } from "next/font/google";
 
+// Example for Next.js (app/layout.tsx)
 import "@/assets/css/index.css";
 
 const poppins = Poppins({

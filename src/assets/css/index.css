@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+  --color-color1: #f97316;
+  --color-color2: #4722f5;
+  --color-color3: #0ea52f;
+  --color-color4: #08041a;
+  --color-color5: #ffbf32;
+
+  --color-gray1: #d1d0d5;
+  --color-gray2: #6c6d6f;
+  --color-gray3: #f4f5f7;
+  --color-gray4: #b9bbbe;
+
+  --font-sans: "Poppins", sans-serif;
+}
+
 button {
   @apply cursor-pointer;
 }

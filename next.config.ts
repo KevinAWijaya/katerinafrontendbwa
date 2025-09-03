@@ -1,10 +1,22 @@
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  turbopack: {
-    rules: {
-      "*.svg": {
-        loaders: ["@svgr/webpack"],
-        as: "*.js",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http", // <-- pakai http, bukan https
+        hostname: "127.0.0.1", // <-- hanya hostname tanpa http://
+        port: "8000", // <-- port dipisah
+        pathname: "/**",
+      },
+    ],
+  },
+  experimental: {
+    turbo: {
+      rules: {
+        "*.svg": {
+          loaders: ["@svgr/webpack"],
+          as: "*.js",
+        },
       },
     },
   },
