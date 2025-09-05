@@ -1,6 +1,7 @@
 import FlagId from "@/assets/image/flag-id.svg";
 import LogoKaterina from "@/assets/image/logo-katerina.svg";
 import Categories from "@/components/Categories";
+import Packages from "@/components/Packages";
 import Slider from "@/components/Slider";
 
 export default function Home() {
@@ -54,6 +55,16 @@ export default function Home() {
       </section>
 
       <Categories />
+
+      <section className="relative">
+        <h2 className="font-semibold mb-4 px-4">Most People Love It</h2>
+        <Packages show="popular" />
+      </section>
+
+      <section className="relative">
+        <h2 className="font-semibold mb-4 px-4">Fresh From Kitchen</h2>
+        <Packages show="newest" />
+      </section>
     </>
   );
 }
