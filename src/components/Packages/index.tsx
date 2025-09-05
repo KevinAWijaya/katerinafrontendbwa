@@ -11,25 +11,6 @@ type Props = {
   show: TShow;
 };
 
-export function ContentCategory({ data }: { data: TPackage }) {
-  return (
-    <div className="flex flex-col items-center gap-y-2 relative">
-      <figure className="w-16 aspect-square relative">
-        <Image
-          fill
-          className="w-full h-full object-cover object-center"
-          src={`${process.env.NEXT_PUBLIC_HOST_API}/storage/${data.thumbnail}`}
-          alt={data.name}
-          sizes="(max-width: 768px) 100vw"
-        />
-      </figure>
-      <span className="">{data.name}</span>
-
-      <Link href={`/categories/${data.slug}`} className="absolute inset-0"></Link>
-    </div>
-  );
-}
-
 export function ContentPopular({ data }: { data: TPackage[] }) {
   if (data.length === 0) return "Tidak ada data";
 
@@ -81,6 +62,7 @@ export function ContentNewest({
   data: TPackage[];
   withTierDetailQuantity?: boolean;
 }) {
+  if (data.length === 0) return "Tidak ada data";
   return (
     <div className="flex flex-col gap-y-4 px-4">
       {data.map((item) => {
