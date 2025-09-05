@@ -1,5 +1,6 @@
 import FlagId from "@/assets/image/flag-id.svg";
 import LogoKaterina from "@/assets/image/logo-katerina.svg";
+import BottomBar from "@/components/BottomBar";
 import Categories from "@/components/Categories";
 import Packages from "@/components/Packages";
 import Slider from "@/components/Slider";
@@ -71,6 +72,8 @@ export default function Home() {
         <h2 className="font-semibold mb-4 px-4">Fresh From Kitchen</h2>
         <Packages show="newest" />
       </section>
+
+      <BottomBar />
     </>
   );
 }
