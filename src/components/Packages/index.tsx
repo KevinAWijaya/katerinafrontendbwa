@@ -94,7 +94,7 @@ export function ContentNewest({
             ? item.tiers.reduce((max, current) => (current.price > max.price ? current : max))
             : null;
         return (
-          <div className="flex gap-x-3">
+          <div key={item.id} className="flex gap-x-3">
             <figure className="w-[120px] h-[160px] flex-none rounded-2xl overflow-hidden relative">
               <Image
                 fill
