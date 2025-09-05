@@ -1,7 +1,7 @@
-import { TCategory } from "../Categories/typed";
-import { TCity } from "../Cities/typed";
-import { TKitchen } from "../Kitchen/typed";
-import { TTier } from "../Tiers/typed";
+import { TCategory } from "@/components/Categories/typed";
+import { TCity } from "@/components/Cities/typed";
+import { TKitchen } from "@/components/Kitchen/typed";
+import { TTier } from "@/components/Tiers/typed";
 
 export type TShow = "popular" | "newest";
 

@@ -8,12 +8,14 @@ type Request = {
   };
 };
 
-function page({ searchParams }: Request) {
-  if (searchParams.modal) {
+export default async function page({ searchParams }: Request) {
+  const { modal, "modal-pos": modalPos } = await searchParams; // ✅ tunggu dulu
+
+  if (modal) {
     let modalPosition = "items-center";
     let modalWrapper = "bg-white rounded-2xl p-4 flex flex-col gap-y-5 max-w-sm relative z-20";
 
-    if (searchParams["modal-pos"] === "bottom") {
+    if (modalPos === "bottom") {
       modalPosition = "items-end";
       modalWrapper =
         "bg-white rounded-t-2xl p-4 flex flex-col gap-y-5 max-w-sm w-full shadow-[0px_-12px_30px_0px_#0D082245]";
@@ -36,5 +38,3 @@ function page({ searchParams }: Request) {
 
   return null;
 }
-
-export default page;

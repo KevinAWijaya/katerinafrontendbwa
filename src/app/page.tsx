@@ -5,6 +5,7 @@ import Categories from "@/components/Categories";
 import Packages from "@/components/Packages";
 import Slider from "@/components/Slider";
 import Testimonials from "@/components/Testimonials";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -28,7 +29,13 @@ export default function Home() {
         <Slider spaceBetween={20} swiperClassName="!h-[180px] !px-4" swiperSlideClassName="!max-w-xs">
           <div className="h-full rounded-3xl overflow-hidden relative border">
             <figure className="w-full h-full absolute">
-              <img className="w-full h-full object-cover object-center" src="/images/slide1.png" alt="" />
+              <Image
+                fill
+                className="w-full h-full object-cover object-center"
+                src="/images/slide1.png"
+                alt="slide 1"
+                sizes="(max-width: 768px) 100vw"
+              />
             </figure>
             <div className="absolute inset-0 bg-gradient-to-r from-black to-black/0"></div>
             <div className="absolute left-0 bottom-0 top-0 pl-4 w-32 flex flex-col justify-center font-bold">
@@ -42,7 +49,13 @@ export default function Home() {
 
           <div className="h-full rounded-3xl overflow-hidden relative border">
             <figure className="w-full h-full absolute">
-              <img className="w-full h-full object-cover object-center" src="/images/slide2.png" alt="" />
+              <Image
+                fill
+                className="w-full h-full object-cover object-center"
+                src="/images/slides.png"
+                alt="slide 2"
+                sizes="(max-width: 768px) 100vw"
+              />
             </figure>
             <div className="absolute inset-0 bg-gradient-to-r from-black to-black/0"></div>
             <div className="absolute left-0 bottom-0 top-0 pl-4 w-32 flex flex-col justify-center font-bold">

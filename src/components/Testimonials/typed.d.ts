@@ -1,4 +1,4 @@
-import { TPackage } from "../Packages/typed";
+import { TPackage } from "@/components/Packages/typed";
 
 export interface TTestimonials {
   id: number;
