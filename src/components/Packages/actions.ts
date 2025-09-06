@@ -10,3 +10,19 @@ export async function getPackages() {
     return error;
   }
 }
+
+export async function getFilteredPackagesByCityAndCategory(categorySlug: string, citySlug: string) {
+  try {
+    const res = await fetch(
+      `${process.env.HOST_API}/api/filters/catering-packages?category_slug=${categorySlug}&city_slug=${citySlug}`,
+      {
+        method: "GET",
+        cache: "no-cache",
+      }
+    );
+
+    return res.json();
+  } catch (error) {
+    return error;
+  }
+}

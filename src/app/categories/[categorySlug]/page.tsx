@@ -6,19 +6,41 @@ import ComposeHeader from "./ComposeHeader";
 
 import { OpenModal } from "@/components/Modal";
 import { ContentNewest, ContentPopular } from "@/components/Packages";
+import { getFilteredPackagesByCityAndCategory } from "@/components/Packages/actions";
+import { TPackage } from "@/components/Packages/typed";
 import "@/libs/thousands";
+import { Metadata, ResolvingMetadata } from "next";
 
 type Request = {
   params: {
     categorySlug: string;
   };
+  searchParams: {
+    citySlug: string;
+  };
 };
 
-async function PageCategoryDetails({ params }: Request) {
+export async function generateMetadata({ params }: Request, parent: ResolvingMetadata): Promise<Metadata> {
   const { categorySlug } = await params;
-  const { data }: { data: TCategory } = await getCategoryDetails(categorySlug);
+  const categories: { data: TCategory } = await getCategoryDetails(categorySlug);
 
-  // console.log(data);
+  return {
+    title: `Category ${categories.data.name}`,
+  };
+}
+
+async function PageCategoryDetails({ params, searchParams }: Request) {
+  const { categorySlug } = await params;
+  const { citySlug } = await searchParams;
+  const categories: { data: TCategory } = await getCategoryDetails(categorySlug);
+
+  let catering_packages = categories.data.catering_packages;
+
+  if (citySlug && citySlug !== "") {
+    const filtered: { data: TPackage[] } = await getFilteredPackagesByCityAndCategory(categorySlug, citySlug);
+
+    catering_packages = filtered.data;
+  }
 
   return (
     <>
@@ -31,20 +53,20 @@ async function PageCategoryDetails({ params }: Request) {
               <Image
                 fill
                 className="w-full h-full object-cover object-center"
-                src={`${process.env.NEXT_PUBLIC_HOST_API}/storage/${data.photo}`}
-                alt={data.name}
+                src={`${process.env.NEXT_PUBLIC_HOST_API}/storage/${categories.data.photo}`}
+                alt={categories.data.name}
                 sizes="(max-width: 768px) 100vw"
               />
             </figure>
             <span className="flex flex-col gap-y-3">
-              <span className="font-semibold">{data.name}</span>
+              <span className="font-semibold">{categories.data.name}</span>
 
               <span className="flex gap-x-1">
                 <span className="text-color2">
                   <Peoples />
                 </span>
                 <span className="text-gray2">
-                  {data.catering_packages_count.thousands()} {`Package${data.catering_packages_count > 1 ? "s" : ""}`}
+                  {catering_packages.length.thousands()} {`Package${catering_packages.length > 1 ? "s" : ""}`}
                 </span>
               </span>
             </span>
@@ -54,12 +76,12 @@ async function PageCategoryDetails({ params }: Request) {
 
       <section className="relative">
         <h2 className="font-semibold mb-4 px-4">Most People Love It</h2>
-        <ContentPopular data={data.catering_packages.filter((item) => item.is_popular === "1")} />
+        <ContentPopular data={catering_packages.filter((item) => item.is_popular === "1")} />
       </section>
 
       <section className="relative">
         <h2 className="font-semibold mb-4 px-4">Fresh From Kitchen</h2>
-        <ContentNewest data={data.catering_packages} />
+        <ContentNewest data={catering_packages} />
       </section>
 
       <div className="sticky bottom-4 mt-36 px-4 z-50 flex justify-center">

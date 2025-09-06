@@ -10,7 +10,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <>
-      <header className="flex items-center justify-between px-4">
+      <header className="flex items-center justify-between px-4 pt-16">
         <span className="flex gap-x-2 items-center">
           <span className="!text-color1">
             <LogoKaterina />
