@@ -52,7 +52,7 @@ export default function Home() {
               <Image
                 fill
                 className="w-full h-full object-cover object-center"
-                src="/images/slides.png"
+                src="/images/slide2.png"
                 alt="slide 2"
                 sizes="(max-width: 768px) 100vw"
               />

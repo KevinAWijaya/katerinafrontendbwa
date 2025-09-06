@@ -1,3 +1,4 @@
+import ModalFilterCategories from "@/components/Categories/ModalFilterCategories";
 import { PreventScroling, RouterBack, TModalPosRegistered, TModalRegistered } from "@/components/Modal";
 
 type Request = {
@@ -9,7 +10,7 @@ type Request = {
 };
 
 export default async function page({ searchParams }: Request) {
-  const { modal, "modal-pos": modalPos } = await searchParams; // ✅ tunggu dulu
+  const { modal, "modal-pos": modalPos, categorySlug } = await searchParams; // ✅ tunggu dulu
 
   if (modal) {
     let modalPosition = "items-center";
@@ -18,15 +19,15 @@ export default async function page({ searchParams }: Request) {
     if (modalPos === "bottom") {
       modalPosition = "items-end";
       modalWrapper =
-        "bg-white rounded-t-2xl p-4 flex flex-col gap-y-5 max-w-sm w-full shadow-[0px_-12px_30px_0px_#0D082245]";
+        "relative z-20 bg-white rounded-t-2xl p-4 flex flex-col gap-y-5 max-w-sm w-full shadow-[0px_-12px_30px_0px_#0D082245]";
     }
     return (
       <>
-        <div
-          id="modal"
-          className={["fixed inset-0 z-50 bg-color4/80 items-center justify-center", modalPosition].join(" ")}
-        >
-          <div className={modalWrapper}>{/* render semua content  */}</div>
+        <div id="modal" className={["fixed inset-0 z-50 bg-color4/80 flex justify-center", modalPosition].join(" ")}>
+          <div className={modalWrapper}>
+            {/* render semua content  */}
+            {modal === "filter-category" && <ModalFilterCategories categorySlug={categorySlug} />}
+          </div>
 
           <RouterBack />
         </div>
