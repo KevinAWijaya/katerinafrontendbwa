@@ -47,7 +47,7 @@ export function ContentPopular({ data }: { data: TPackage[] }) {
                 </span>
               </span>
             </div>
-            <Link href={`/catering-package/${item.slug}`} className="absolute inset-0"></Link>
+            <Link href={`/packages/${item.slug}`} className="absolute inset-0"></Link>
           </div>
         );
       })}
