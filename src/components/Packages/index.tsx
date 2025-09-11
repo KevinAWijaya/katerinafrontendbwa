@@ -17,6 +17,10 @@ export function ContentPopular({ data }: { data: TPackage[] }) {
   return (
     <Slider spaceBetween={20} swiperClassName="!h-[180px] !px-4" swiperSlideClassName="!max-w-xs">
       {data.map((item) => {
+        const lowestTier =
+          item.tiers.length > 0
+            ? item.tiers.reduce((min, current) => (current.price < min.price ? current : min))
+            : null;
         return (
           <div key={item.id} className="h-full rounded-3xl overflow-hidden relative border">
             <figure className="w-full h-full absolute">
@@ -30,20 +34,20 @@ export function ContentPopular({ data }: { data: TPackage[] }) {
             </figure>
 
             <div className="absolute left-2 bottom-2 right-2 flex flex-col bg-white rounded-2xl p-3">
-              <span className="font-semibold">Success Diet Natural</span>
+              <span className="font-semibold">{item.name}</span>
               <span className="flex gap-x-3">
                 <span className="flex gap-x-1">
                   <span className="text-color2">
                     <Notes />
                   </span>
-                  <span className="text-gray2">Healthy</span>
+                  <span className="text-gray2">{item.category.name}</span>
                 </span>
 
                 <span className="flex gap-x-1">
                   <span className="text-color2">
                     <Peoples />
                   </span>
-                  <span className="text-gray2">125</span>
+                  <span className="text-gray2">{lowestTier?.quantity || 0}</span>
                 </span>
               </span>
             </div>
@@ -76,7 +80,7 @@ export function ContentNewest({
             ? item.tiers.reduce((max, current) => (current.price > max.price ? current : max))
             : null;
         return (
-          <div key={item.id} className="flex gap-x-3">
+          <div key={item.id} className="flex gap-x-3 relative">
             <figure className="w-[120px] h-[160px] flex-none rounded-2xl overflow-hidden relative">
               <Image
                 fill
@@ -112,6 +116,8 @@ export function ContentNewest({
                 <span className="text-gray2">{item.city.name}</span>
               </span>
             </span>
+
+            <Link href={`/packages/${item.slug}`} className="absolute inset-0"></Link>
           </div>
         );
       })}
