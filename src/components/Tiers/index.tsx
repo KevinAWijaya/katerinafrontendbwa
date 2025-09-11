@@ -17,7 +17,6 @@ export function ContentTier({ packageSlug, data }: { packageSlug: string; data: 
             alt={data.name}
             sizes="(max-width: 768px) 100vw"
           />
-          ;
         </figure>
         <span className="flex flex-col">
           <h2 className="font-semibold text-lg">{data.name}</h2>

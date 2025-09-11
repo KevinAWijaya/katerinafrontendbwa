@@ -8,7 +8,6 @@ import { OpenModal } from "@/components/Modal";
 import { ContentNewest, ContentPopular } from "@/components/Packages";
 import { getFilteredPackagesByCityAndCategory } from "@/components/Packages/actions";
 import { TPackage } from "@/components/Packages/typed";
-import "@/libs/thousands";
 import { Metadata, ResolvingMetadata } from "next";
 
 type Request = {
