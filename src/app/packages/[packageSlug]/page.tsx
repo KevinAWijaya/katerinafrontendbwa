@@ -13,8 +13,6 @@ import Image from "next/image";
 import Link from "next/link";
 import ComposeHeader from "./ComposeHeader";
 
-import "@/libs/thousands"; // path sesuaikan
-
 type Request = {
   params: {
     packageSlug: string;
@@ -196,14 +194,14 @@ async function PackageDetailsPage({ params }: Request) {
 
           {!!currentTier ? (
             <Link
-              href={`/package/${packageSlug}/tiers`}
+              href={`/packages/${packageSlug}/tiers`}
               className="bg-color1 rounded-full flex items-center justify-center text-white px-5"
             >
               Booking Now
             </Link>
           ) : (
             <Link
-              href={`/package/${packageSlug}/tiers`}
+              href={`/packages/${packageSlug}/tiers`}
               className="bg-gray1 rounded-full flex items-center justify-center text-gray-200 cursor-not-allowed px-5"
             >
               Booking Now

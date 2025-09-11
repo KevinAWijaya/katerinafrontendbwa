@@ -1,6 +1,7 @@
 export interface TTier {
   id: number;
   name: string;
+  tagline: string;
   price: number;
   quantity: number;
   duration: number;

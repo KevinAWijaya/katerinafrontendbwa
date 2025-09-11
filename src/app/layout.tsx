@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 
 // Example for Next.js (app/layout.tsx)
 import "@/assets/css/index.css";
+import "@/libs/thousands"; // path sesuaikan
 
 const poppins = Poppins({
   weight: ["400", "600", "700"],
