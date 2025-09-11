@@ -49,7 +49,6 @@ async function PackageTierPage({ params }: Request) {
               alt={cateringPackages.data.name}
               sizes="(max-width: 768px) 100vw"
             />
-            ;
           </figure>
           <span className="flex flex-col gap-y-3">
             <span className="font-semibold">{cateringPackages.data.name}</span>
