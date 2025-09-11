@@ -13,6 +13,8 @@ import Image from "next/image";
 import Link from "next/link";
 import ComposeHeader from "./ComposeHeader";
 
+import "@/libs/thousands"; // path sesuaikan
+
 type Request = {
   params: {
     packageSlug: string;
@@ -182,6 +184,33 @@ async function PackageDetailsPage({ params }: Request) {
           </Link>
         </span>
       </section>
+
+      <div className="sticky bottom-4 px-4 z-50 mt-8">
+        <div className="rounded-full flex justify-between gap-x-3 bg-white shadow-[0px_12px_30px_0px_#07041517] p-3 pl-6">
+          <span className="flex flex-col">
+            <span className="font-semibold text-xl">Rp {(currentTier?.price || 0).thousands()}</span>
+            <span className="text-gray2 text-sm">
+              {currentTier?.duration || 0} days, {currentTier?.quantity || 0} people
+            </span>
+          </span>
+
+          {!!currentTier ? (
+            <Link
+              href={`/package/${packageSlug}/tiers`}
+              className="bg-color1 rounded-full flex items-center justify-center text-white px-5"
+            >
+              Booking Now
+            </Link>
+          ) : (
+            <Link
+              href={`/package/${packageSlug}/tiers`}
+              className="bg-gray1 rounded-full flex items-center justify-center text-gray-200 cursor-not-allowed px-5"
+            >
+              Booking Now
+            </Link>
+          )}
+        </div>
+      </div>
     </>
   );
 }
