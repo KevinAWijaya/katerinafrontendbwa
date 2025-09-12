@@ -56,7 +56,7 @@ function Header({ appendClassName, back, title, more, thumbsUp }: Props) {
     <header className={["flex items-center justify-between px-4 w-full gap-x-4", appendClassName].join(" ")}>
       {back.historyBack ? (
         <span
-          onClick={router.back}
+          onClick={() => router.back()}
           className="flex items-center justify-center bg-white rounded-full w-[52px] aspect-square text-color2 cursor-pointer"
         >
           <ArrowLeftCircle />

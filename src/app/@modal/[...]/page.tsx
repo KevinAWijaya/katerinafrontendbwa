@@ -1,5 +1,6 @@
 import ModalFilterCategories from "@/components/Categories/ModalFilterCategories";
 import { PreventScroling, RouterBack, TModalPosRegistered, TModalRegistered } from "@/components/Modal";
+import ModalDetailTier from "@/components/Tiers/ModalDetailTier";
 
 type Request = {
   searchParams: {
@@ -9,8 +10,8 @@ type Request = {
   };
 };
 
-export default async function page({ searchParams }: Request) {
-  const { modal, "modal-pos": modalPos, categorySlug } = await searchParams; // ✅ tunggu dulu
+async function page({ searchParams }: Request) {
+  const { modal, "modal-pos": modalPos, categorySlug, tierId, packageSlug } = await searchParams;
 
   if (modal) {
     let modalPosition = "items-center";
@@ -27,6 +28,8 @@ export default async function page({ searchParams }: Request) {
           <div className={modalWrapper}>
             {/* render semua content  */}
             {modal === "filter-category" && <ModalFilterCategories categorySlug={categorySlug} />}
+
+            {modal === "tier" && <ModalDetailTier packageSlug={packageSlug} tierId={tierId} />}
           </div>
 
           <RouterBack />
@@ -39,3 +42,5 @@ export default async function page({ searchParams }: Request) {
 
   return null;
 }
+
+export default page;

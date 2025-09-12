@@ -1,5 +1,5 @@
 function DefaultPage() {
-    return null;
+  return null;
 }
 
 export default DefaultPage;

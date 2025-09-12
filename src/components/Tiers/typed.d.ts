@@ -13,7 +13,7 @@ export interface Benefit {
   id: number;
   name: string;
   catering_tier_id: number;
-  deleted_at: any;
+  deleted_at: null | string;
   created_at: string;
   updated_at: string;
 }

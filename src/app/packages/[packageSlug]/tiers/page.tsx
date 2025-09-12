@@ -75,7 +75,7 @@ async function PackageTierPage({ params }: Request) {
         <h2 className="font-semibold px-4 mb-3">Choose Your Package</h2>
         <div className="flex flex-col gap-y-4 px-4">
           {cateringPackages.data.tiers.map((tier) => {
-            return <ContentTier data={tier} packageSlug={packageSlug} key={tier.id} />;
+            return <ContentTier data={tier} packageSlug={packageSlug} key={tier.id} isPriceShown />;
           })}
         </div>{" "}
       </section>

@@ -3,6 +3,7 @@ export async function getAllTestimonials() {
     const res = await fetch(`${process.env.HOST_API}/api/testimonials`, {
       method: "GET",
       cache: "no-cache",
+      next: { revalidate: 60 },
     });
 
     return res.json();
