@@ -3,19 +3,21 @@
 import ArrowCircleDown from "@/assets/image/arrow-circle-down.svg";
 import Calendar from "@/assets/image/calendar.svg";
 import Clock from "@/assets/image/clock.svg";
-import Envelope from "@/assets/image/envelope.svg";
+import HomeTown from "@/assets/image/hometown.svg";
+import Map from "@/assets/image/map.svg";
+import Notes2 from "@/assets/image/notes2.svg";
 import Package from "@/assets/image/package.svg";
 import Peoples from "@/assets/image/peoples.svg";
-import Phone from "@/assets/image/phone.svg";
+import PinPoint from "@/assets/image/pinpoint.svg";
 import Tax from "@/assets/image/tax.svg";
 import Truck from "@/assets/image/truck.svg";
-import User from "@/assets/image/user.svg";
-import { submitInformation } from "@/components/Packages/actions";
+import { submitShipping } from "@/components/Packages/actions";
 import { TPackageDetails } from "@/components/Packages/typed";
+import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useEffect } from "react";
 
 import "@/libs/thousands";
-import { useSafeLocalStorage } from "@/libs/useSafeLocalStorage";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 type Props = {
   data: TPackageDetails;
@@ -32,14 +34,14 @@ const initialState: {
 };
 
 function Form({ data, tierId }: Props) {
-  const [checkout, checkoutSet] = useSafeLocalStorage<{ [key: string]: any }>("checkout", {});
+  const [checkout, checkoutSet] = useLocalStorage<{ [key: string]: any }>("checkout", {});
 
   const currentTier = data.tiers.find((catTier) => String(catTier.id) === tierId);
 
   const tax = (currentTier?.price || 0) * 0.11;
   const grandTotal = (currentTier?.price || 0) + tax;
 
-  const [state, formAction] = React.useActionState(submitInformation, initialState);
+  const [state, formAction] = React.useActionState(submitShipping, initialState);
 
   const router = useRouter();
   useEffect(() => {
@@ -55,7 +57,7 @@ function Form({ data, tierId }: Props) {
           ...state.data,
         },
       }));
-      router.push(`/packages/${data.slug}/shipping?tier=${tierId}`);
+      router.push(`/packages/${data.slug}/payments?tier=${tierId}`);
     }
   }, [state]);
 
@@ -67,94 +69,104 @@ function Form({ data, tierId }: Props) {
 
       <div className="flex flex-col gap-y-7 px-4">
         <div className="flex flex-col bg-white border border-gray1 rounded-2xl p-4">
-          <input type="checkbox" name="accordion" id="customer-information" className="peer hidden" defaultChecked />
+          <input type="checkbox" name="accordion" id="shipping-address" className="peer hidden" defaultChecked />
           <label
-            htmlFor="customer-information"
+            htmlFor="shipping-address"
             className="flex justify-between items-center cursor-pointer [--state-rotate:0deg] peer-checked:[--state-rotate:180deg]"
           >
-            <h6 className="text-xl font-bold">Customer Information</h6>
+            <h6 className="text-xl font-bold">Shipping Address</h6>
             <span className="text-color2 flex items-center justify-center transition-all duration-300 [rotate:var(--state-rotate)] bg-white border rounded-full p-2">
               <ArrowCircleDown />
             </span>
           </label>
           <div className="flex flex-col gap-y-5 max-h-0 overflow-hidden transition-all duration-300 h-full peer-checked:mt-5 peer-checked:max-h-screen">
             <div className="flex relative">
+              <span className="absolute left-0 bottom-2 top-2 aspect-square flex items-center justify-center text-color2">
+                <Calendar />
+              </span>
+              <div className="pl-12 flex flex-col w-full justify-center pr-4 h-[69px] rounded-2xl bg-gray3">
+                <span className="text-sm text-gray2">Started At</span>
+                <span className="font-semibold">{format(checkout[data.slug]?.started_at, "dd LLLL yyyy")}</span>
+              </div>
+            </div>
+
+            <div className="flex relative">
+              <span className="absolute left-0 bottom-2 top-2 aspect-square flex items-center justify-center text-color2">
+                <Clock />
+              </span>
+              <div className="pl-12 flex flex-col w-full justify-center pr-4 h-[69px] rounded-2xl bg-gray3">
+                <span className="text-sm text-gray2">Time</span>
+                <span className="font-semibold">Lunch Time</span>
+              </div>
+            </div>
+
+            <div className="flex relative">
+              <span className="absolute left-0 bottom-2 top-2 aspect-square flex items-center justify-center text-color2">
+                <PinPoint />
+              </span>
+              <div className="pl-12 flex flex-col w-full justify-center pr-4 h-[69px] rounded-2xl bg-gray3">
+                <span className="text-sm text-gray2">City</span>
+                <span className="font-semibold">{data.city.name}</span>
+              </div>
+            </div>
+
+            <div className="flex relative">
+              <span className="absolute left-4 top-5 aspect-square flex items-center justify-center text-color2">
+                <HomeTown />
+              </span>
+              <textarea
+                className="pl-12 w-full pt-7 pr-4 border border-light3 focus:outline-none focus:border-color2 rounded-2xl peer placeholder:opacity-0 placeholder-shown:pt-6 font-semibold"
+                name="address"
+                id="address"
+                rows={3}
+                placeholder="Address"
+                defaultValue={checkout[data.slug]?.address || ""}
+              ></textarea>
+              <label
+                htmlFor="address"
+                className="absolute pointer-events-none text-gray2 flex items-center ml-12 peer-placeholder-shown:top-5 top-3 peer-placeholder-shown:text-base text-sm transition-all duration-300"
+              >
+                Address
+              </label>
+            </div>
+
+            <div className="flex relative">
               <span className="absolute left-0 bottom-2 top-3 aspect-square flex items-center justify-center text-color2">
-                <User />
+                <Map />
               </span>
               <input
                 type="text"
                 className="pl-12 w-full pt-4 pr-4 border border-light3 h-[69px] focus:outline-none focus:border-color2 rounded-2xl peer placeholder:opacity-0 placeholder-shown:pt-0 font-semibold"
-                name="name"
-                id="name"
-                placeholder="Full Name"
-                defaultValue={checkout[data.slug]?.name || ""}
+                name="post_code"
+                id="post_code"
+                placeholder="Post code"
+                defaultValue={checkout[data.slug]?.post_code || ""}
               />
               <label
-                htmlFor="name"
+                htmlFor="post_code"
                 className="absolute pointer-events-none text-gray2 inset-0 flex items-center ml-12 peer-placeholder-shown:mb-0 mb-8 peer-placeholder-shown:text-base text-sm transition-all duration-300"
               >
-                Full Name
+                Post code
               </label>
             </div>
 
             <div className="flex relative">
-              <span className="absolute left-0 bottom-2 top-3 aspect-square flex items-center justify-center text-color2">
-                <Envelope />
+              <span className="absolute left-4 top-5 aspect-square flex items-center justify-center text-color2">
+                <Notes2 />
               </span>
-              <input
-                type="email"
-                className="pl-12 w-full pt-4 pr-4 border border-light3 h-[69px] focus:outline-none focus:border-color2 rounded-2xl peer placeholder:opacity-0 placeholder-shown:pt-0 font-semibold"
-                name="email"
-                id="email"
-                placeholder="Email"
-                defaultValue={checkout[data.slug]?.email || ""}
-              />
+              <textarea
+                className="pl-12 w-full pt-7 pr-4 border border-light3 focus:outline-none focus:border-color2 rounded-2xl peer placeholder:opacity-0 placeholder-shown:pt-6 font-semibold"
+                name="notes"
+                id="notes"
+                rows={3}
+                placeholder="Notes"
+                defaultValue={checkout[data.slug]?.notes || ""}
+              ></textarea>
               <label
-                htmlFor="email"
-                className="absolute pointer-events-none text-gray2 inset-0 flex items-center ml-12 peer-placeholder-shown:mb-0 mb-8 peer-placeholder-shown:text-base text-sm transition-all duration-300"
+                htmlFor="notes"
+                className="absolute pointer-events-none text-gray2 flex items-center ml-12 peer-placeholder-shown:top-5 top-3 peer-placeholder-shown:text-base text-sm transition-all duration-300"
               >
-                Email
-              </label>
-            </div>
-
-            <div className="flex relative">
-              <span className="absolute left-0 bottom-2 top-3 aspect-square flex items-center justify-center text-color2">
-                <Phone />
-              </span>
-              <input
-                type="tel"
-                className="pl-12 w-full pt-4 pr-4 border border-light3 h-[69px] focus:outline-none focus:border-color2 rounded-2xl peer placeholder:opacity-0 placeholder-shown:pt-0 font-semibold"
-                name="phone"
-                id="phone"
-                placeholder="Phone"
-                defaultValue={checkout[data.slug]?.phone || ""}
-              />
-              <label
-                htmlFor="phone"
-                className="absolute pointer-events-none text-gray2 inset-0 flex items-center ml-12 peer-placeholder-shown:mb-0 mb-8 peer-placeholder-shown:text-base text-sm transition-all duration-300"
-              >
-                Phone
-              </label>
-            </div>
-
-            <div className="flex relative">
-              <span className="absolute left-0 bottom-2 top-3 aspect-square flex items-center justify-center text-color2">
-                <Calendar />
-              </span>
-              <input
-                type="date"
-                className="pl-12 w-full pt-4 pr-4 border border-light3 h-[69px] focus:outline-none focus:border-color2 rounded-2xl peer placeholder:opacity-0 placeholder-shown:pt-0 font-semibold appearance-none"
-                name="started_at"
-                id="started_at"
-                placeholder="Start At"
-                defaultValue={checkout[data.slug]?.phone || ""}
-              />
-              <label
-                htmlFor="started_at"
-                className="absolute pointer-events-none text-gray2 inset-0 flex items-center ml-12 peer-placeholder-shown:mb-0 mb-8 peer-placeholder-shown:text-base text-sm transition-all duration-300"
-              >
-                Start At
+                Notes
               </label>
             </div>
           </div>

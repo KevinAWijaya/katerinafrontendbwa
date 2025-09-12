@@ -46,7 +46,7 @@ export async function submitInformation(prevState: any, formData: FormData) {
   const phone = formData.get("phone");
   const started_at = formData.get("started_at");
   const slug = formData.get("slug");
-  const catering_package_id = formData.get("catering_package_id");
+  // const catering_package_id = formData.get("catering_package_id");
   const tierId = formData.get("catering_tier_id");
   if (name === "") {
     return {
@@ -84,6 +84,53 @@ export async function submitInformation(prevState: any, formData: FormData) {
       email,
       phone,
       started_at,
+      tierId,
+    },
+  };
+
+  // try {
+  //   return redirect(`/packages/${slug}/shipping?tier=${catering_tier_id}`);
+  // } catch (error) {
+  //   return error;
+  // }
+}
+export async function submitShipping(prevState: any, formData: FormData) {
+  const address = formData.get("address");
+  const post_code = formData.get("post_code");
+  const notes = formData.get("notes");
+  const started_at = formData.get("started_at");
+  const slug = formData.get("slug");
+  // const catering_package_id = formData.get("catering_package_id");
+  const tierId = formData.get("catering_tier_id");
+  if (address === "") {
+    return {
+      message: "Alamat tidak boleh kosong!",
+      field: "address",
+    };
+  }
+
+  if (post_code === "") {
+    return {
+      message: "Postal code tidak boleh kosong!",
+      field: "post_code",
+    };
+  }
+
+  if (notes === "") {
+    return {
+      message: "Catatan tidak boleh kosong!",
+      field: "notes",
+    };
+  }
+
+  return {
+    message: "Next Step",
+    field: "",
+    data: {
+      address,
+      post_code,
+      notes,
+      slug,
       tierId,
     },
   };
