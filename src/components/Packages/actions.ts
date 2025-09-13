@@ -1,3 +1,12 @@
+"use server";
+
+interface File {
+  size: number;
+  type: string;
+  name: string;
+  lastModified: number;
+}
+
 export async function getPackages() {
   try {
     const res = await fetch(`${process.env.HOST_API}/api/catering-package`, {
@@ -46,8 +55,7 @@ export async function submitInformation(prevState: any, formData: FormData) {
   const phone = formData.get("phone");
   const started_at = formData.get("started_at");
   const slug = formData.get("slug");
-  // const catering_package_id = formData.get("catering_package_id");
-  const tierId = formData.get("catering_tier_id");
+  const catering_tier_id = formData.get("catering_tier_id");
   if (name === "") {
     return {
       message: "Nama tidak boleh kosong!",
@@ -84,15 +92,9 @@ export async function submitInformation(prevState: any, formData: FormData) {
       email,
       phone,
       started_at,
-      tierId,
+      catering_tier_id,
     },
   };
-
-  // try {
-  //   return redirect(`/packages/${slug}/shipping?tier=${catering_tier_id}`);
-  // } catch (error) {
-  //   return error;
-  // }
 }
 export async function submitShipping(prevState: any, formData: FormData) {
   const address = formData.get("address");
@@ -101,7 +103,8 @@ export async function submitShipping(prevState: any, formData: FormData) {
   const started_at = formData.get("started_at");
   const slug = formData.get("slug");
   // const catering_package_id = formData.get("catering_package_id");
-  const tierId = formData.get("catering_tier_id");
+  const catering_tier_id = formData.get("catering_tier_id");
+
   if (address === "") {
     return {
       message: "Alamat tidak boleh kosong!",
@@ -131,7 +134,7 @@ export async function submitShipping(prevState: any, formData: FormData) {
       post_code,
       notes,
       slug,
-      tierId,
+      catering_tier_id,
     },
   };
 
@@ -140,4 +143,46 @@ export async function submitShipping(prevState: any, formData: FormData) {
   // } catch (error) {
   //   return error;
   // }
+}
+export async function submitPayment(prevState: any, formData: FormData) {
+  const slug = formData.get("slug") as string;
+  const phone = formData.get("phone");
+  const st = formData.get("started_at");
+
+  const proof = formData.get("proof") as File;
+  if (proof.size === 0) {
+    return {
+      message: "Bukti pembayaran tidak boleh kosong!",
+      field: "proof",
+    };
+  }
+
+  try {
+    console.log(`formdata : ${st}`);
+    const res = await fetch(`${process.env.HOST_API}/api/booking-transaction`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    console.log("status:", res.status);
+    console.log("ok:", res.ok);
+    console.log("message:", data.message); // assuming server sends { message: "..." }
+
+    return {
+      message: "Next Step",
+      field: "",
+      data: {
+        slug,
+        phone,
+        booking_trx_id: data.data.booking_trx_id,
+      },
+    };
+  } catch (error: any) {
+    console.log(error);
+    return {
+      message: error.message,
+      field: "toaster",
+    };
+  }
 }

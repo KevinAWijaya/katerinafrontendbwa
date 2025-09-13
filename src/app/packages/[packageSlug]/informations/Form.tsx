@@ -148,7 +148,7 @@ function Form({ data, tierId }: Props) {
                 name="started_at"
                 id="started_at"
                 placeholder="Start At"
-                defaultValue={checkout[data.slug]?.phone || ""}
+                defaultValue={checkout[data.slug]?.started_at || ""}
               />
               <label
                 htmlFor="started_at"

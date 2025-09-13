@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 
 // Example for Next.js (app/layout.tsx)
 import "@/assets/css/index.css";
+import Toaster from "@/components/Toaster";
 import "@/libs/thousands";
 
 const poppins = Poppins({
@@ -32,6 +33,7 @@ export default function RootLayout({
         <main className="container max-w-sm mx-auto flex flex-col gap-y-5 relative">{children}</main>
 
         {modal}
+        <Toaster />
       </body>
     </html>
   );
