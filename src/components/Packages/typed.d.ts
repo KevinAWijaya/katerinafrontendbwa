@@ -39,3 +39,28 @@ export type Photo = {
   created_at: string;
   updated_at: string;
 };
+
+export type TBookingDetails = {
+  message: string;
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  post_code: string;
+  city: string;
+  address: string;
+  notes: string;
+  started_at: string;
+  ended_at: string;
+  booking_trx_id: string;
+  price: number;
+  total_tax_amount: number;
+  total_amount: number;
+  delivery_time: string;
+  quantity: number;
+  duration: number;
+  isPaid: number;
+  proof: string;
+  cateringPackage: TPackage;
+  cateringTier: TTier;
+};

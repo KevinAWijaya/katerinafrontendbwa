@@ -158,16 +158,12 @@ export async function submitPayment(prevState: any, formData: FormData) {
   }
 
   try {
-    console.log(`formdata : ${st}`);
     const res = await fetch(`${process.env.HOST_API}/api/booking-transaction`, {
       method: "POST",
       body: formData,
     });
 
     const data = await res.json();
-    console.log("status:", res.status);
-    console.log("ok:", res.ok);
-    console.log("message:", data.message); // assuming server sends { message: "..." }
 
     return {
       message: "Next Step",
@@ -184,5 +180,21 @@ export async function submitPayment(prevState: any, formData: FormData) {
       message: error.message,
       field: "toaster",
     };
+  }
+}
+export async function checkBookingByTrxId(booking_trx_id: string, phone: string) {
+  try {
+    const formData = new FormData();
+    formData.append("booking_trx_id", booking_trx_id);
+    formData.append("phone", phone);
+
+    const res = await fetch(`${process.env.HOST_API}/api/check-booking`, {
+      method: "POST",
+      body: formData,
+    });
+
+    return res.json();
+  } catch (error) {
+    return error;
   }
 }
