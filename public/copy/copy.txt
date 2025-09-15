@@ -4,4 +4,4 @@
   src={`${process.env.NEXT_PUBLIC_HOST_API}/storage/${cateringPackages.data.kitchen.photo}`}
   alt={cateringPackages.data.kitchen.name}
   sizes="(max-width: 768px) 100vw"
-/>;
+/> 
