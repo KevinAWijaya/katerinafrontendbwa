@@ -62,5 +62,5 @@ export type TBookingDetails = {
   isPaid: number;
   proof: string;
   cateringPackage: TPackage;
-  cateringTier: TTier;
+  tier: TTier;
 };

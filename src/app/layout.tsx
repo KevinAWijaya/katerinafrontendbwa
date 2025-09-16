@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 import { Poppins } from "next/font/google";
 
-// Example for Next.js (app/layout.tsx)
 import "@/assets/css/index.css";
+import NProgressBar from "@/components/NProgressBar";
+
 import Toaster from "@/components/Toaster";
 import "@/libs/thousands";
 
@@ -30,6 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.className}>
       <body>
+        {/* mount progress bar di sini */}
+        <NProgressBar />
+
         <main className="container max-w-sm mx-auto flex flex-col gap-y-5 relative">{children}</main>
 
         {modal}

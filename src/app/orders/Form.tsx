@@ -3,6 +3,7 @@
 import Phone from "@/assets/image/phone.svg";
 import Receipt from "@/assets/image/receipt.svg";
 import { navigateOrdersByTrxId } from "@/components/Packages/actions";
+import { useRouter } from "next/navigation";
 import React from "react";
 const initialState: {
   message: string;
@@ -15,7 +16,15 @@ const initialState: {
   status: 200,
 };
 function Form() {
+  const router = useRouter();
   const [state, formAction] = React.useActionState(navigateOrdersByTrxId, initialState);
+
+  React.useEffect(() => {
+    if (state?.redirectTo) {
+      router.push(state.redirectTo);
+    }
+  }, [state, router]);
+
   return (
     <form action={formAction}>
       <section className="relative flex flex-col items-center gap-y-4 w-full px-4">

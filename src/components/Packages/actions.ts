@@ -1,7 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
 interface File {
   size: number;
   type: string;
@@ -202,36 +200,24 @@ export async function checkBookingByTrxId(booking_trx_id: string, phone: string)
 }
 
 export async function navigateOrdersByTrxId(prevState: any, formData: FormData) {
-  const phone = formData.get("phone");
-  const booking_trx_id = formData.get("booking_trx_id");
-  if (phone === "") {
-    return {
-      message: "Enter phone number",
-      field: "phone",
-    };
-  }
-  if (booking_trx_id === "") {
-    return {
-      message: "Enter transaction id",
-      field: "booking_trx_id",
-    };
+  const phone = formData.get("phone") as string;
+  const booking_trx_id = formData.get("booking_trx_id") as string;
+
+  if (!phone) return { message: "Enter phone number", field: "phone" };
+  if (!booking_trx_id) return { message: "Enter transaction id", field: "booking_trx_id" };
+
+  const res = await fetch(`${process.env.HOST_API}/api/check-booking`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    return { message: "Transaction id or Phone is not found", field: "toaster" };
   }
 
-  try {
-    const res = await fetch(`${process.env.HOST_API}/api/check-booking`, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      return {
-        message: "Transaction id or Phone is not found",
-        field: "toaster",
-      };
-    }
-
-    return redirect(`/orders/${booking_trx_id}?phone`);
-  } catch (error) {
-    return error;
-  }
+  return {
+    message: "ok",
+    field: "",
+    redirectTo: `/orders/${booking_trx_id}?phone=${phone}`,
+  };
 }
