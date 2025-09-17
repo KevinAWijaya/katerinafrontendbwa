@@ -63,7 +63,7 @@ function BottomBar({}: Props) {
                 ].join(" ")}
               >
                 {menu.icon}
-                <span className="text-sm">Home</span>
+                <span className="text-sm">{menu.label}</span>
               </Link>
             </li>
           );

@@ -37,6 +37,13 @@ async function OrderDetailPage({ params, searchParams }: Request) {
 
   const bookingDetails: { data: TBookingDetails; message: string } = await checkBookingByTrxId(orderId, phone);
 
+  console.log({ orderId });
+  console.log({ phone });
+  console.log({ bookingDetails });
+
+  if (bookingDetails.message) {
+    return <div>{bookingDetails.message}</div>;
+  }
   return (
     <>
       <ComposeHeader />
